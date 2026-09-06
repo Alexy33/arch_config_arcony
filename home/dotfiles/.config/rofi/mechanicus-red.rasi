@@ -1,0 +1,97 @@
+* {
+    bg: #0d0d0d;
+    bg-alt: #1a1a1a;
+    fg: #ff6464;
+    fg-alt: #FFD700;
+    red: #8B0000;
+    
+    background-color: @bg;
+    text-color: @fg;
+    border-color: @red;
+    separatorcolor: @red;
+    selected-normal-background: @red;
+    selected-normal-foreground: @fg-alt;
+}
+
+window {
+    background-color: @bg;
+    border: 3px;
+    border-color: @red;
+    border-radius: 15px;
+    width: 800px;
+    height: 600px;
+    padding: 20px;
+}
+
+mainbox {
+    background-color: transparent;
+    spacing: 15px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border: 2px;
+    border-color: @red;
+    border-radius: 8px;
+    padding: 12px;
+    spacing: 10px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @fg-alt;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder: ">>> Invoke Machine Spirit...";
+}
+
+listview {
+    background-color: @bg;
+    border: 2px;
+    border-color: @red;
+    border-radius: 10px;
+    padding: 10px;
+    spacing: 5px;
+    lines: 12;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 10px;
+    spacing: 10px;
+    text-color: @fg;
+}
+
+element selected {
+    background-color: @red;
+    text-color: @fg-alt;
+}
+
+element-icon {
+    size: 32px;
+}
+
+mode-switcher {
+    background-color: @bg-alt;
+    border: 2px;
+    border-color: @red;
+    border-radius: 8px;
+    padding: 8px;
+    spacing: 5px;
+}
+
+button {
+    background-color: transparent;
+    text-color: @fg;
+    border-radius: 6px;
+    padding: 8px;
+}
+
+button selected {
+    background-color: @red;
+    text-color: @fg-alt;
+}

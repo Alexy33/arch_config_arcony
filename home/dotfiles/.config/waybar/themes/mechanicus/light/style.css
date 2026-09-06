@@ -1,0 +1,563 @@
+/*
+ *  +++  WAYBAR — CULT MECHANICUS PATTERN  +++
+ *  Forge: Mars Primaris  ::  Designation: Bar Mk.IV "Skitarii"
+ *  ------------------------------------------------------------
+ *  Ave Omnissiah. Praise be the Machine God.
+ *  Flesh is weak. Steel endures. Code is law.
+ *
+ *  01001111 01001101 01001110 01001001 01010011 01010011 01001001 01000001 01001000
+ *  ( O      M        N        I       S        S        I        A        H        )
+ *
+ *  All values are sacred. All glyphs are blessed.
+ *  Anointed by the Magos Cogitator on 2026-05-01.M3
+ *  ------------------------------------------------------------
+ */
+
+@import url("colors.css");
+
+/* ============================================================
+ *  GENERAL
+ *  Liturgy of the Default Cant
+ * ============================================================ */
+* {
+    font-family: "JetBrains Mono", "Fira Code", "Font Awesome 6 Free", FontAwesome, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+    transition: all 180ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+window#waybar {
+    background: linear-gradient(180deg,
+        rgba(10, 6, 4, 0.96) 0%,
+        rgba(18, 9, 6, 0.94) 60%,
+        rgba(10, 6, 4, 0.92) 100%);
+    color: @bone;
+    border-bottom: 1px solid @sanguine_deep;
+    box-shadow: 0 1px 0 @brass_dim, 0 2px 12px rgba(200, 16, 46, 0.12);
+}
+
+window#waybar.empty #window {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* ============================================================
+ *  TOOLTIPS — sacred data-revelation
+ * ============================================================ */
+tooltip {
+    background: @surface;
+    border: 1px solid @sanguine;
+    border-radius: 0;
+    padding: 6px;
+    box-shadow: 0 0 0 1px @brass_dim, 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+
+tooltip label {
+    color: @brass_holy;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    padding: 4px 8px;
+}
+
+/* ============================================================
+ *  WORKSPACES — the Five Sacred Domains
+ *  +++ I . II . III . IV . V +++
+ * ============================================================ */
+#workspaces {
+    background: @surface_container;
+    margin: 4px 8px 4px 6px;
+    padding: 2px 4px;
+    border: 1px solid @brass_dim;
+    border-left: 2px solid @sanguine;
+    border-right: 2px solid @sanguine;
+}
+
+#workspaces button {
+    background: transparent;
+    color: @bone_dim;
+    padding: 2px 10px;
+    margin: 2px 1px;
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-family: "JetBrains Mono", monospace;
+    min-width: 22px;
+}
+
+#workspaces button:hover {
+    background: rgba(200, 16, 46, 0.12);
+    color: @brass_holy;
+    border: 1px solid @sanguine_deep;
+    box-shadow: inset 0 0 6px rgba(255, 59, 59, 0.25);
+}
+
+#workspaces button.active {
+    background: @sanguine_deep;
+    color: @brass_glow;
+    border: 1px solid @brass;
+    box-shadow:
+        inset 0 0 8px rgba(255, 59, 59, 0.35),
+        0 0 8px rgba(200, 16, 46, 0.4);
+    text-shadow: 0 0 4px rgba(255, 204, 102, 0.5);
+}
+
+#workspaces button.urgent {
+    background: @sanguine_bright;
+    color: #000;
+    border: 1px solid @brass_holy;
+    animation: sanguine_pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes sanguine_pulse {
+    from { box-shadow: 0 0 4px rgba(255, 59, 59, 0.4); }
+    to   { box-shadow: 0 0 14px rgba(255, 59, 59, 0.9); }
+}
+
+/* ============================================================
+ *  WINDOW TITLE — designation of active rite
+ * ============================================================ */
+#window {
+    margin: 4px 10px;
+    padding: 2px 12px;
+    color: @brass;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 12px;
+    opacity: 0.85;
+    border-left: 1px solid @sanguine_deep;
+    border-right: 1px solid @sanguine_deep;
+}
+
+/* ============================================================
+ *  CLOCK — the Choral Chronometer
+ *  +++ time is a measurement of the Omnissiah's patience +++
+ * ============================================================ */
+#clock {
+    background: @surface_container;
+    color: @brass_holy;
+    margin: 4px 0;
+    padding: 4px 18px;
+    border: 1px solid @brass;
+    border-top: 2px solid @sanguine;
+    border-bottom: 2px solid @sanguine;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
+    box-shadow:
+        inset 0 0 12px rgba(200, 16, 46, 0.08),
+        0 0 10px rgba(212, 175, 55, 0.10);
+}
+
+#clock:hover {
+    color: @brass_glow;
+    border-color: @sanguine_bright;
+    box-shadow:
+        inset 0 0 16px rgba(200, 16, 46, 0.18),
+        0 0 14px rgba(212, 175, 55, 0.25);
+}
+
+/* ============================================================
+ *  STANDARD MODULES — sancta cogitator pattern
+ *  cpu, memory, battery, network, pulseaudio, bluetooth, etc.
+ * ============================================================ */
+#cpu,
+#memory,
+#disk,
+#battery,
+#network,
+#pulseaudio,
+#bluetooth,
+#bluetooth.on,
+#bluetooth.connected,
+#backlight,
+#language,
+#power-profiles-daemon {
+    background: @surface_container;
+    color: @bone;
+    margin: 4px 2px;
+    padding: 4px 12px;
+    border-top: 1px solid @brass_dim;
+    border-bottom: 1px solid @brass_dim;
+    border-left: 1px solid @sanguine_deep;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+#cpu:hover,
+#memory:hover,
+#battery:hover,
+#network:hover,
+#pulseaudio:hover,
+#bluetooth:hover {
+    background: @surface_bright;
+    color: @brass_holy;
+    border-color: @sanguine;
+    box-shadow: inset 0 0 8px rgba(200, 16, 46, 0.2);
+}
+
+#cpu       { color: @sanguine_glow; }
+#memory    { color: @brass; }
+#battery   { color: @brass_holy; }
+#network   { color: @bone; }
+#pulseaudio { color: @brass; }
+
+/* +++ BATTERY: sanctified power-source +++ */
+#battery.charging,
+#battery.plugged {
+    color: @text_success;
+    border-left: 1px solid @text_success;
+}
+
+@keyframes critical_blink {
+    from { background: @sanguine_bright; color: #fff; }
+    to   { background: @surface_container; color: @sanguine_bright; }
+}
+
+#battery.critical:not(.charging) {
+    background: @sanguine_bright;
+    color: #ffffff;
+    border-color: @brass_holy;
+    animation: critical_blink 0.6s linear infinite alternate;
+}
+
+/* +++ NETWORK : the Noosphere link +++ */
+#network.disconnected,
+#network.disabled {
+    color: @text_error;
+    border-left: 1px solid @text_error;
+    background: rgba(90, 10, 10, 0.4);
+}
+
+/* +++ AUDIO: vox-channel +++ */
+#pulseaudio.muted {
+    color: @bone_dim;
+    background: @surface_dim;
+    border-left: 1px solid @bone_dim;
+}
+
+#bluetooth.off {
+    background: transparent;
+    color: @bone_dim;
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+/* ============================================================
+ *  TRAY — the reliquary of running data-spirits
+ * ============================================================ */
+#tray {
+    background: @surface_container;
+    margin: 4px 4px 4px 2px;
+    padding: 4px 10px;
+    border-top: 1px solid @brass_dim;
+    border-bottom: 1px solid @brass_dim;
+    border-left: 1px solid @sanguine_deep;
+    border-right: 1px solid @sanguine_deep;
+}
+
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background: rgba(200, 16, 46, 0.15);
+}
+
+/* ============================================================
+ *  TASKBAR — vessels of the Machine Spirits
+ * ============================================================ */
+#taskbar {
+    background: @surface_container;
+    margin: 4px 8px;
+    padding: 0 4px;
+    border: 1px solid @brass_dim;
+    border-left: 2px solid @sanguine;
+}
+
+#taskbar button {
+    margin: 2px 2px;
+    padding: 2px 6px;
+    border: 1px solid transparent;
+}
+
+#taskbar button:hover  {
+    border: 1px solid @sanguine_deep;
+    background: rgba(200, 16, 46, 0.10);
+}
+
+#taskbar.empty {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ============================================================
+ *  APP MENU — the Cog Mechanicus, gateway of rites
+ *  +++ click here to commune with the Machine God +++
+ * ============================================================ */
+#custom-appmenu {
+    background: @sanguine_deep;
+    color: @brass_glow;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 4px 8px 4px 6px;
+    padding: 2px 14px;
+    border: 1px solid @brass_holy;
+    border-left: 2px solid @brass_holy;
+    border-right: 2px solid @brass_holy;
+    box-shadow:
+        inset 0 0 10px rgba(255, 59, 59, 0.3),
+        0 0 8px rgba(200, 16, 46, 0.4);
+    text-shadow: 0 0 6px rgba(255, 204, 102, 0.6);
+}
+
+#custom-appmenu:hover {
+    background: @sanguine;
+    color: #ffffff;
+    box-shadow:
+        inset 0 0 16px rgba(255, 59, 59, 0.5),
+        0 0 16px rgba(255, 59, 59, 0.6);
+}
+
+/* ============================================================
+ *  CUSTOM MECHANICUS MODULES
+ *  +++ rites & auspices of the local cogitator +++
+ * ============================================================ */
+#custom-omnissiah {
+    color: @brass_holy;
+    background: @surface_container;
+    margin: 4px 6px;
+    padding: 2px 12px;
+    border-top: 1px solid @brass;
+    border-bottom: 1px solid @brass;
+    font-style: italic;
+    font-weight: 500;
+    text-shadow: 0 0 4px rgba(212, 175, 55, 0.4);
+}
+
+#custom-omnissiah:hover {
+    color: @brass_glow;
+    border-color: @sanguine;
+    background: @surface_bright;
+}
+
+#custom-cogitator-temp,
+#custom-machine-spirit,
+#custom-warp-status,
+#custom-maintenance-rites {
+    background: @surface_container;
+    color: @bone;
+    margin: 4px 1px;
+    padding: 2px 10px;
+    border-top: 1px solid @brass_dim;
+    border-bottom: 1px solid @brass_dim;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+#custom-cogitator-temp.optimal,
+#custom-cogitator-temp { color: @text_success; }
+#custom-cogitator-temp.warm        { color: @text_warning; }
+#custom-cogitator-temp.overheating {
+    color: #ffffff;
+    background: @sanguine_bright;
+    animation: critical_blink 0.8s linear infinite alternate;
+}
+
+#custom-machine-spirit          { color: @brass; }
+#custom-machine-spirit.peaceful { color: @text_success; }
+#custom-machine-spirit.active   { color: @brass_holy; }
+#custom-machine-spirit.agitated {
+    color: @sanguine_glow;
+    border-color: @sanguine;
+}
+
+#custom-warp-status            { color: @brass; }
+#custom-warp-status.stable     { color: @text_success; }
+#custom-warp-status.turbulent  { color: @text_warning; }
+#custom-warp-status.chaotic    {
+    color: @sanguine_glow;
+    text-shadow: 0 0 6px rgba(255, 59, 59, 0.6);
+}
+#custom-warp-status.severed    {
+    color: #ffffff;
+    background: @sanguine_bright;
+}
+
+#custom-maintenance-rites             { color: @brass; }
+#custom-maintenance-rites.sanctified  { color: @text_success; }
+#custom-maintenance-rites.blessed     { color: @brass_holy; }
+#custom-maintenance-rites.required    {
+    color: @sanguine_glow;
+    border-color: @sanguine;
+    text-shadow: 0 0 4px rgba(255, 59, 59, 0.5);
+}
+
+/* ============================================================
+ *  NOTIFICATION & EXIT — the Ritual Shutdown
+ * ============================================================ */
+#custom-notification {
+    margin: 0 8px;
+    padding: 2px 6px;
+    font-size: 16px;
+    color: @brass_holy;
+}
+
+#custom-notification:hover { color: @brass_glow; }
+
+#custom-exit {
+    margin: 0 10px 0 4px;
+    padding: 2px 8px;
+    font-size: 15px;
+    color: @sanguine_glow;
+    text-shadow: 0 0 4px rgba(255, 59, 59, 0.4);
+}
+
+#custom-exit:hover {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 59, 59, 0.9);
+}
+
+/* ============================================================
+ *  UPDATES — pending data-rites awaiting the Magos
+ * ============================================================ */
+#custom-updates {
+    background: @surface_container;
+    color: @brass_holy;
+    margin: 4px 2px;
+    padding: 2px 10px;
+    border-top: 1px solid @brass;
+    border-bottom: 1px solid @brass;
+    font-size: 12px;
+}
+
+#custom-updates.green  { color: @text_success; border-color: @text_success; }
+#custom-updates.yellow {
+    color: @text_warning;
+    border-color: @text_warning;
+    text-shadow: 0 0 4px rgba(240, 160, 32, 0.4);
+}
+#custom-updates.red {
+    color: #ffffff;
+    background: @sanguine;
+    border-color: @brass_holy;
+    animation: critical_blink 1.2s linear infinite alternate;
+}
+
+/* ============================================================
+ *  CUSTOM QUICKLINKS — sub-rites of the Forge
+ * ============================================================ */
+#custom-brave,
+#custom-browser,
+#custom-keybindings,
+#custom-outlook,
+#custom-filemanager,
+#custom-teams,
+#custom-chatgpt,
+#custom-calculator,
+#custom-windowsvm,
+#custom-cliphist,
+#custom-settings,
+#custom-wallpaper,
+#custom-system,
+#custom-hyprshade,
+#custom-hypridle,
+#custom-tools,
+#custom-quicklink1,
+#custom-quicklink2,
+#custom-quicklink3,
+#custom-quicklink4,
+#custom-quicklink5,
+#custom-quicklink6,
+#custom-quicklink7,
+#custom-quicklink8,
+#custom-quicklink9,
+#custom-quicklink10,
+#custom-quicklink_chromium,
+#custom-quicklink_edge,
+#custom-quicklink_firefox,
+#custom-quicklink_browser,
+#custom-quicklink_filemanager,
+#custom-quicklink_email,
+#custom-quicklink_thunderbird,
+#custom-quicklink_calculator,
+#custom-waybarthemes,
+#custom-ml4w-welcome {
+    margin: 0 6px;
+    padding: 0 4px;
+    font-size: 16px;
+    color: @brass;
+    opacity: 0.85;
+}
+
+#custom-brave:hover,
+#custom-browser:hover,
+#custom-filemanager:hover,
+#custom-cliphist:hover,
+#custom-tools:hover,
+#custom-wallpaper:hover,
+#custom-settings:hover,
+#custom-keybindings:hover,
+#custom-system:hover,
+#custom-hyprshade:hover,
+#custom-hypridle:hover,
+#custom-waybarthemes:hover,
+#custom-ml4w-welcome:hover {
+    color: @brass_glow;
+    opacity: 1.0;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.5);
+}
+
+#custom-hypridle.active    { color: @brass_holy; }
+#custom-hypridle.notactive { color: @sanguine_glow; }
+
+/* ============================================================
+ *  IDLE INHIBITOR — vigil of the wakeful servitor
+ * ============================================================ */
+#idle_inhibitor {
+    margin: 0 10px;
+    padding: 0 4px;
+    font-size: 16px;
+    color: @brass;
+    opacity: 0.85;
+}
+
+#idle_inhibitor.activated {
+    color: @sanguine_glow;
+    opacity: 1.0;
+    text-shadow: 0 0 6px rgba(255, 59, 59, 0.6);
+}
+
+/* ============================================================
+ *  BLUETOOTH BATTERY — vox-bead charge state
+ * ============================================================ */
+#custom-bluetooth-battery {
+    background: @surface_container;
+    color: @brass;
+    margin: 4px 2px;
+    padding: 2px 10px;
+    border-top: 1px solid @brass_dim;
+    border-bottom: 1px solid @brass_dim;
+}
+
+#custom-bluetooth-battery.bluetooth-battery-disconnected {
+    color: @bone_dim;
+    border-color: @outline_variant;
+}
+
+/*
+ *  +++  END OF LITANY  +++
+ *  May the Omnissiah preserve this Bar from corruption.
+ *  Should it fail, perform the Rite of Reload (waybar -c ... -s ...).
+ *  In nomine Machinae, lux perpetua data luceat.
+ *
+ *  hidden vow:
+ *  01010100 01001000 01000101  01000110 01001100 01000101 01010011 01001000
+ *  ( T      H        E          F        L        E        S        H       )
+ *  01001001 01010011  01010111 01000101 01000001 01001011
+ *  ( I      S          W        E        A        K       )
+ */

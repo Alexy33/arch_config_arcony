@@ -1,0 +1,115 @@
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+//   ___ _   _ _   _____   __  __ ___ ___ _  _   _   _  _ ___ ___ _   _ ___
+//  / __| | | | | |_   _| |  \/  | __/ __| || | /_\ | \| |_ _/ __| | | / __|
+// | (__| |_| | |__ | |   | |\/| | _| (__| __ |/ _ \| .` || | (__| |_| \__ \
+//  \___|\___/|____||_|   |_|  |_|___\___|_||_/_/ \_\_|\_|___\___|\___/|___/
+//
+//          Waybar Pattern Mk.IV — Cult Mechanicus consecration
+//          Forged on Mars-Primaris, anointed 2026-05-01.M3
+//
+//          +++ Ave Omnissiah. Praise the Machine God. +++
+//          +++ Flesh is weak. Steel endures. Code is law. +++
+//
+// 01000001 01010110 01000101 00100000 01001111 01001101 01001110 01001001 01010011 01010011 01001001 01000001 01001000
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+{
+    // General Settings — sanctified geometry
+    "layer": "top",
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 14,
+    "margin-right": 14,
+    "spacing": 0,
+
+    // Load shared module catalogue (the codex)
+    "include": [
+        "~/.config/ml4w/settings/waybar-quicklinks.json",
+        "~/.config/waybar/modules.json"
+    ],
+
+    // ============================================================
+    //  MODULES — left ::: the rite begins here
+    // ============================================================
+    "modules-left": [
+        "custom/appmenu",
+        "hyprland/workspaces",
+        "custom/omnissiah",
+        "hyprland/window"
+    ],
+
+    // ============================================================
+    //  MODULES — center ::: the chronometer-saint
+    // ============================================================
+    "modules-center": [
+        "clock"
+    ],
+
+    // ============================================================
+    //  MODULES — right ::: auspices and rites
+    // ============================================================
+    "modules-right": [
+        "custom/cogitator-temp",
+        "custom/machine-spirit",
+        "custom/warp-status",
+        "custom/maintenance-rites",
+        "custom/bluetooth-battery",
+        "pulseaudio",
+        "bluetooth",
+        "network",
+        "battery",
+        "tray",
+        "custom/notification",
+        "custom/ml4w-welcome",
+        "custom/exit"
+    ],
+
+    // ============================================================
+    //  OVERRIDES — local rituals override the codex
+    // ============================================================
+
+    // Cog Mechanicus — gateway to all rites
+    "custom/appmenu": {
+        "format": "⚙",
+        "on-click": "~/.config/rofi/launch-mechanicus.sh",
+        "on-click-right": "~/.config/hypr/scripts/keybindings.sh",
+        "tooltip-format": "+++ Click to commune with the Machine Spirits +++\nLeft: Application launcher\nRight: Keybindings"
+    },
+
+    // Sacred Domains — five workspaces, the holy pentaptych
+    // ( Roman numerals: I·II·III·IV·V — easter egg: numbered like
+    //   the Five Sacred Cogs of the Cult Mechanicus )
+    "hyprland/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "Ⅰ",
+            "2": "Ⅱ",
+            "3": "Ⅲ",
+            "4": "Ⅳ",
+            "5": "Ⅴ",
+            "6": "Ⅵ",
+            "7": "Ⅶ",
+            "8": "Ⅷ",
+            "9": "Ⅸ",
+            "10": "Ⅹ",
+            "urgent": "⚠",
+            "active": "⚙",
+            "default": "·"
+        },
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+
+    // Choral Chronometer — Imperial reckoning in the tooltip
+    "clock": {
+        "format": "+++ {:%H:%M} +++",
+        "format-alt": "{:%A %d %B %Y}",
+        "tooltip-format": "<span color='#d4af37' font_weight='bold'>+++ IMPERIAL DATE +++</span>\n{:%A %d %B %Y — %H:%M:%S}\n<span color='#b08d57'>Holy Terra Standard</span>",
+        "on-click": "flatpak run com.ml4w.calendar"
+    }
+}

@@ -1,0 +1,108 @@
+/*
+ * ⚙️ ADEPTUS MECHANICUS WLOGOUT THEME ⚙️ 
+ */
+
+* {
+    font-family: "JetBrainsMono Nerd Font Bold", FontAwesome, sans-serif;
+    background-image: none;
+    transition: 20ms;
+    box-shadow: none;
+}
+
+window {
+    background: url("../ml4w/cache/blurred_mechanicus_wallpaper.jpg");
+    background-size: cover;
+    font-size: 16pt;
+    color: #00ff41;
+}
+
+button {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 18%;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 25px;
+    border: 3px solid rgba(0, 255, 65, 0.3);
+    margin: 10px;
+    transition: all 0.3s ease, box-shadow 0.2s ease-in-out;
+}
+
+button:focus {
+    background-size: 20%;
+    border: 3px solid rgba(0, 255, 65, 0.6);
+}
+
+button:hover {
+    background-color: rgba(0, 255, 65, 0.1);
+    opacity: 0.9;
+    color: #39ff14;
+    background-size: 25%;
+    margin: 8px;
+    border-radius: 30px;
+    border: 4px solid #00ff41;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.6);
+}
+
+button span {
+    font-size: 1.1em;
+}
+
+/* Lock - Sacred Gold */
+#lock {
+    border-color: rgba(255, 215, 0, 0.4);
+    color: #ffd700;
+    background-image: image(url("icons/lock.png"));
+}
+
+#lock:hover {
+    border-color: #ffd700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+}
+
+/* Logout - Forge Green */
+#logout {
+    border-color: rgba(0, 255, 65, 0.4);
+    color: #00ff41;
+    background-image: image(url("icons/logout.png"));
+}
+
+#logout:hover {
+    border-color: #00ff41;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.8);
+}
+
+/* Suspend - Tech Blue */
+#suspend {
+    border-color: rgba(0, 191, 255, 0.4);
+    color: #00bfff;
+    background-image: image(url("icons/suspend.png"));
+}
+
+#suspend:hover {
+    border-color: #00bfff;
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.6);
+}
+
+/* Reboot - Machine Orange */
+#reboot {
+    border-color: rgba(255, 107, 0, 0.4);
+    color: #ff6b00;
+    background-image: image(url("icons/reboot.png"));
+}
+
+#reboot:hover {
+    border-color: #ff6b00;
+    box-shadow: 0 0 30px rgba(255, 107, 0, 0.6);
+}
+
+/* Shutdown - Death Red */
+#shutdown {
+    border-color: rgba(255, 0, 64, 0.4);
+    color: #ff0040;
+    background-image: image(url("icons/shutdown.png"));
+}
+
+#shutdown:hover {
+    border-color: #ff0040;
+    box-shadow: 0 0 30px rgba(255, 0, 64, 0.6);
+}

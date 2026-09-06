@@ -1,0 +1,10 @@
+[Unit]
+Description=Run Arch Event Planner Daily Summary
+Requires=arch-planner-daily.service
+
+[Timer]
+OnCalendar=*-*-* 09:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

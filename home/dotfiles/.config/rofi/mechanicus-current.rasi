@@ -1,0 +1,179 @@
+* {
+    bg-main: #0a0a0a;
+    bg-secondary: #1a1a1a;
+    bg-selected: rgba(90, 42, 42, 0.8);
+    
+    fg-main: #cccccc;
+    fg-bright: #ff6b6b;
+    fg-dim: #888888;
+    
+    border-main: #ff4141;
+    border-bright: #ff6b6b;
+    
+    accent-gold: #ffd700;
+    
+    background-color: transparent;
+    text-color: @fg-main;
+    border-color: @border-main;
+    selected-normal-background: @bg-selected;
+    selected-normal-foreground: @fg-bright;
+}
+
+window {
+    transparency: "real";
+    background-color: rgba(20, 10, 10, 0.96);
+    border: 4px;
+    border-color: @border-main;
+    border-radius: 18px;
+    width: 980px;
+    height: 650px;
+    padding: 0px;
+    location: center;
+    anchor: center;
+}
+
+mainbox {
+    background-color: transparent;
+    children: [ "mode-switcher", "inputbar", "listview" ];
+    padding: 20px;
+    spacing: 12px;
+}
+
+mode-switcher {
+    background-color: rgba(26, 26, 26, 0.8);
+    border: 2px;
+    border-color: @border-main;
+    border-radius: 10px;
+    padding: 8px;
+    spacing: 8px;
+    orientation: horizontal;
+    expand: false;
+}
+
+button {
+    background-color: rgba(15, 15, 15, 0.7);
+    text-color: @fg-dim;
+    border: 2px;
+    border-color: @border-main;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font: "JetBrainsMono Nerd Font Bold 10";
+    cursor: pointer;
+    expand: true;
+}
+
+button selected {
+    background-color: @border-main;
+    text-color: @bg-main;
+    border: 2px;
+    border-color: @border-bright;
+    font: "JetBrainsMono Nerd Font Bold 11";
+}
+
+inputbar {
+    background-color: rgba(20, 20, 20, 0.9);
+    border: 3px;
+    border-color: @border-main;
+    border-radius: 12px;
+    padding: 12px 18px;
+    spacing: 12px;
+    children: [ "prompt", "textbox-prompt-colon", "entry" ];
+}
+
+prompt {
+    background-color: transparent;
+    text-color: @accent-gold;
+    font: "JetBrainsMono Nerd Font Bold 12";
+    vertical-align: 0.5;
+}
+
+textbox-prompt-colon {
+    expand: false;
+    str: ">>>";
+    text-color: @border-bright;
+    font: "JetBrainsMono Nerd Font Bold 12";
+    vertical-align: 0.5;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg-bright;
+    placeholder: "Invoke Sacred Machine Spirit Protocol...";
+    cursor-color: @border-bright;
+    font: "JetBrainsMono Nerd Font 11";
+    vertical-align: 0.5;
+}
+
+listview {
+    background-color: rgba(8, 8, 8, 0.95);
+    border: 3px;
+    border-color: @border-main;
+    border-radius: 15px;
+    padding: 15px;
+    spacing: 6px;
+    lines: 16;
+    columns: 1;
+    cycle: true;
+    dynamic: true;
+    scrollbar: true;
+    fixed-height: true;
+    reverse: false;
+    flow: vertical;
+}
+
+scrollbar {
+    background-color: @bg-secondary;
+    handle-color: @border-main;
+    handle-width: 8px;
+    border-radius: 4px;
+    margin: 0px 2px 0px 6px;
+}
+
+element {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 12px 18px;
+    spacing: 16px;
+    text-color: @fg-main;
+    orientation: horizontal;
+    cursor: pointer;
+    border: 2px;
+    border-color: transparent;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @fg-main;
+    border-color: transparent;
+}
+
+element alternate.normal {
+    background-color: rgba(12, 12, 12, 0.6);
+    text-color: @fg-main;
+    border-color: transparent;
+}
+
+element selected.normal {
+    background-color: @bg-selected;
+    text-color: @fg-bright;
+    border: 3px;
+    border-color: @border-bright;
+    font: "JetBrainsMono Nerd Font Bold 11";
+    margin: -1px;
+    padding: 14px 20px;
+}
+
+element-icon {
+    size: 36px;
+    margin: 0px 12px 0px 0px;
+    vertical-align: 0.5;
+    horizontal-align: 0.5;
+}
+
+element-text {
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+    font: "JetBrainsMono Nerd Font 11";
+    margin: 2px 0px 2px 2px;
+    expand: true;
+}

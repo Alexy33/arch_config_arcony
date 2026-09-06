@@ -1,0 +1,15 @@
+[Unit]
+Description=Mise à jour automatique des paquets Arch (dépôts officiels)
+Documentation=man:pacman(8)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/arch-autoupdate
+# La mise à jour ne doit pas concurrencer le reste du démarrage.
+Nice=10
+IOSchedulingClass=idle
+# Une mise à jour qui traîne plus d'une heure est bloquée : on la tue plutôt
+# que de laisser un db.lck derrière elle.
+TimeoutStartSec=1h

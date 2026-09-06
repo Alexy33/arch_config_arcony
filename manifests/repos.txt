@@ -1,0 +1,12 @@
+# nom<TAB>url — rejoué par restore.sh (phase repos)
+arch_config_arcony	git@github.com:Alexy33/arch_config_arcony.git
+Cairn	git@github.com:SementicLab/Cairn.git
+cargo-risks_certificates	git@github.com:Alexy33/cargo-risks_certificates.git
+CryptoSentinel	git@github.com:Alexy33/CryptoSentinel.git
+Gites-Estuaire	git@github.com:SementicLab/Gites-Estuaire.git
+Learning_motivation	git@github.com:Alexy33/learning_motivation.git
+my_cyber_blog	git@github.com:Alexy33/alexy33.github.io.git
+NextTemplate	https://github.com/NotJuz0o/NextTemplate.git
+Nmap-CPP	git@github.com:Alexy33/Nmap-CPP.git
+RankMates	git@github.com:SementicLab/RankMates.git
+Training-three-js	git@github.com:Alexy33/Three.js-training.git

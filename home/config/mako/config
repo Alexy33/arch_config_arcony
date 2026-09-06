@@ -1,0 +1,8 @@
+anchor=top-right
+font=monospace 11
+background-color=#2e3440ff
+text-color=#d8dee9ff
+border-color=#88c0d0ff
+border-size=2
+default-timeout=5000
+max-visible=5

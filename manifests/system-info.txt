@@ -1,0 +1,12 @@
+# Généré par dump.sh le 2026-09-06T19:28:47+02:00
+hostname=cogitator
+kernel=7.1.5-arch1-2
+shell=/usr/bin/zsh
+cpu=12th Gen Intel(R) Core(TM) i5-12450HX
+gpu=Intel Corporation Alder Lake-S [UHD Graphics] (rev 0c);Intel Corporation DG2 [Arc A530M] (rev 01)
+timezone=Europe/Paris
+locale=en_US.UTF-8
+keymap=fr
+bootloader=grub
+firmware=uefi
+ml4w_version=#!/bin/bash

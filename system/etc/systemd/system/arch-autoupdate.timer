@@ -1,0 +1,17 @@
+[Unit]
+Description=Déclenche la mise à jour automatique après le démarrage
+Documentation=man:pacman(8)
+
+[Timer]
+# 3 minutes après le boot : le temps que le réseau et la session soient prêts.
+OnBootSec=3min
+# Et une fois par jour si la machine reste allumée.
+OnUnitActiveSec=1d
+# Si la machine était éteinte à l'heure prévue, rattrape au démarrage suivant.
+Persistent=true
+# Étale le déclenchement pour ne pas taper le miroir à la seconde près.
+RandomizedDelaySec=5min
+Unit=arch-autoupdate.service
+
+[Install]
+WantedBy=timers.target

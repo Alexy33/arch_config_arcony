@@ -1,0 +1,1 @@
+kitty --class dotfiles-floating -e ~/.config/ml4w/scripts/installupdates.sh

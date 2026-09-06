@@ -1,0 +1,8 @@
+[Unit]
+Description=Arch Event Planner Daily Summary
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/omnimessie/.local/bin/arch-planner --daily-summary
+Environment="DISPLAY=:0"

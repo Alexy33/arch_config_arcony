@@ -1,0 +1,37 @@
+# ─── secrets ────────────────────────────────────────────────────────────────
+# Ce dépôt ne doit jamais contenir de clé. dump.sh ne les copie pas ; ces
+# règles sont la deuxième barrière, au cas où un fichier serait ajouté à la
+# main dans une des arborescences capturées.
+**/.ssh/
+**/.gnupg/
+**/*.kdbx
+**/*.pem
+**/*.key
+**/id_rsa*
+**/id_ed25519*
+**/*.p12
+**/*.pfx
+**/.netrc
+**/.npmrc
+**/credentials*
+**/*token*
+**/system-connections/
+
+# ─── état local, jamais de la configuration ─────────────────────────────────
+**/.git/
+home/**/.cache/
+home/config/go/telemetry/
+home/config/**/*.log
+home/config/**/*.sock
+home/my_dotfiles/scripts/discord
+
+# ML4W régénère ces trois images depuis le fond d'écran courant ; les autres
+# fichiers de ml4w/cache/ (image de profil, miniatures choisies) sont gardés.
+home/dotfiles/.config/ml4w/cache/wallpaper-generated/
+home/dotfiles/.config/ml4w/cache/blurred_wallpaper.png
+home/dotfiles/.config/ml4w/cache/square_wallpaper.png
+
+# ─── divers ─────────────────────────────────────────────────────────────────
+*.swp
+*~
+.DS_Store

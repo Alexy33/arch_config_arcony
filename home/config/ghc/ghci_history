@@ -1,0 +1,100 @@
+:q
+:r
+sc ([1,2,3],[1,2,3])
+:q
+sc ([1,2,3],[1,2,3])
+:q
+sb ([],[1,2,3])
+:r
+sa ([1,2,3],[])
+:q
+:q
+:q
+:q
+:q
+:q
+safeSucc (Just 2)
+safeSucc Just (2)
+safeSucc Just 2
+safeSucc "2"
+safeSucc 2
+:r
+:r
+:r
+:r
+:r
+:r
+safeSucc 2
+:r
+:r
+:q
+:r
+safeNth "abcde" 7
+safeNth "abcde" 3
+safeNth "abcde" 2
+safeNth 2 "abcde"
+:r
+:r
+:r
+:r
+:r
+:r
+:q
+:r
+:q
+safeDiv 2 2
+safeDiv 3 4
+safeDiv 3 47
+safeDiv 10 2
+safeDiv 10 0
+:q
+myElem 6 [1,2,3,5]
+myElem 3 [1,2,3,5]
+:q
+myElem 2 "1234"
+myElem 2 "1234"
+:q
+:q
+myDrop 2 "abcde"
+:q
+myDrop 2 "abcde"
+:q
+:q
+:q
+myDrop 2 "abcde"
+:q
+myDrop -2 "abcde"
+myDrop 2 "abcde"
+myDrop 2 "abcde
+:quit
+:quit
+:quit
+:quit
+:quit
+myTake 4 "hello"
+:quit
+myTake 4 "hello"
+myTake -1 "abc"
+myTake 1 "abc"
+:quit
+myNth "123" 2
+myNth 123 2
+myNth aaa 1
+:quit
+:quit
+:quit
+myLength "4123"
+myLength "4"
+myLength 4
+:quit
+:quit
+myTail "aaaa"
+:quit
+myHead "aaaa"
+myHead aaaa
+:quit
+:quit
+myHead "aa"
+:quit
+myHead "aa"
+:quit

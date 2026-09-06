@@ -1,0 +1,287 @@
+#!/bin/bash
+
+# ============================================================================
+# Learning Emergency - Annulation d'urgence des missions et pénalités
+# ============================================================================
+
+set -euo pipefail
+
+# Configuration
+readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly CONFIG_DIR="$HOME/.learning_challenge"
+readonly LIB_DIR="/home/omnimessie/github/Learning_motivation/lib"
+
+# Import des modules
+source "$LIB_DIR/config.sh"
+source "$LIB_DIR/ui.sh"
+source "$LIB_DIR/mission.sh"
+source "$LIB_DIR/stats.sh"
+source "$LIB_DIR/timer.sh"
+source "$LIB_DIR/punishment.sh"
+
+# ============================================================================
+# Fonctions principales
+# ============================================================================
+
+show_emergency_menu() {
+    ui_header "🚨 MODE URGENCE"
+    ui_warning "Utilisez ces options uniquement en cas de problème grave !"
+    echo
+    
+    local choice
+    choice=$(gum choose \
+        "🛑 Arrêter mission actuelle" \
+        "💀 Stopper toutes les pénalités" \
+        "🔧 Réinitialisation complète" \
+        "📊 Voir l'état du système" \
+        "❌ Annuler")
+    
+    case "$choice" in
+        "🛑 Arrêter mission actuelle")
+            emergency_stop_mission
+            ;;
+        "💀 Stopper toutes les pénalités")
+            emergency_stop_punishments
+            ;;
+        "🔧 Réinitialisation complète")
+            emergency_full_reset
+            ;;
+        "📊 Voir l'état du système")
+            emergency_system_status
+            ;;
+        "❌ Annuler")
+            ui_info "Opération annulée"
+            exit 0
+            ;;
+    esac
+}
+
+emergency_stop_mission() {
+    ui_header "Arrêt d'urgence de la mission"
+    
+    local mission_data
+    mission_data=$(config_get_current_mission)
+    
+    if [[ "$mission_data" == "null" ]] || [[ -z "$mission_data" ]]; then
+        ui_info "Aucune mission active à arrêter"
+        return 0
+    fi
+    
+    local activity
+    activity=$(echo "$mission_data" | jq -r '.activity')
+    
+    ui_warning "Mission active détectée: $activity"
+    echo
+    
+    if ui_confirm "Voulez-vous vraiment arrêter cette mission ?"; then
+        mission_emergency_cancel
+        ui_success "Mission arrêtée avec succès"
+    else
+        ui_info "Arrêt annulé"
+    fi
+}
+
+emergency_stop_punishments() {
+    ui_header "Arrêt d'urgence des pénalités"
+    
+    punishment_list_active
+    echo
+    
+    punishment_emergency_stop
+}
+
+emergency_full_reset() {
+    ui_header "🔧 Réinitialisation complète"
+    ui_warning "ATTENTION: Cette action va:"
+    echo "  • Arrêter toutes les missions"
+    echo "  • Stopper toutes les pénalités"
+    echo "  • Nettoyer tous les processus"
+    echo "  • Restaurer les paramètres système"
+    echo
+    ui_error "LES STATISTIQUES SERONT PRÉSERVÉES"
+    echo
+    
+    if ui_confirm "Êtes-vous ABSOLUMENT sûr ?"; then
+        echo
+        ui_info "Début de la réinitialisation..."
+        
+        # 1. Arrêter la mission
+        config_clear_mission
+        ui_success "✓ Mission arrêtée"
+        
+        # 2. Stopper les pénalités
+        punishment_emergency_stop >/dev/null 2>&1
+        ui_success "✓ Pénalités stoppées"
+        
+        # 3. Nettoyer les processus
+        pkill -f "learning.*timer" 2>/dev/null || true
+        pkill -f "punishment" 2>/dev/null || true
+        ui_success "✓ Processus nettoyés"
+        
+        # 4. Nettoyer les fichiers temporaires
+        rm -f "$CONFIG_DIR"/timer.pid
+        rm -f "$CONFIG_DIR"/current_mission.json
+        rm -f "$CONFIG_DIR"/timer_status
+        rm -f "$CONFIG_DIR"/notifications.log
+        ui_success "✓ Fichiers temporaires supprimés"
+        
+        echo
+        ui_success "🎉 Réinitialisation terminée !"
+        ui_info "Vous pouvez maintenant relancer 'learning.sh' normalement."
+    else
+        ui_info "Réinitialisation annulée"
+    fi
+}
+
+emergency_system_status() {
+    ui_header "État du système"
+    
+    echo
+    ui_info "📁 Fichiers de configuration :"
+    if [[ -f "$CONFIG_DIR/config.json" ]]; then
+        echo "  ✓ config.json présent"
+    else
+        echo "  ❌ config.json manquant"
+    fi
+    
+    if [[ -f "$CONFIG_DIR/stats.json" ]]; then
+        echo "  ✓ stats.json présent"
+    else
+        echo "  ❌ stats.json manquant"
+    fi
+    
+    if [[ -f "$CONFIG_DIR/current_mission.json" ]]; then
+        echo "  ⚠️ Mission active détectée"
+    else
+        echo "  ✓ Aucune mission active"
+    fi
+    
+    echo
+    ui_info "🔧 Processus actifs :"
+    local timer_running=false
+    local punishment_running=false
+    
+    if pgrep -f "learning.*timer" >/dev/null 2>&1; then
+        echo "  ⚠️ Timer en cours d'exécution"
+        timer_running=true
+    fi
+    
+    if pgrep -f "punishment" >/dev/null 2>&1; then
+        echo "  ⚠️ Pénalités actives"
+        punishment_running=true
+    fi
+    
+    if [[ "$timer_running" == false && "$punishment_running" == false ]]; then
+        echo "  ✓ Aucun processus actif"
+    fi
+    
+    echo
+    ui_info "💾 Utilisation de l'espace :"
+    if [[ -d "$CONFIG_DIR" ]]; then
+        local size
+        size=$(du -sh "$CONFIG_DIR" 2>/dev/null | cut -f1 || echo "Inconnu")
+        echo "  Configuration: $size"
+    fi
+    
+    echo
+    ui_info "🔗 Commandes disponibles :"
+    local commands=("learning-check" "learning-status" "learning-emergency")
+    for cmd in "${commands[@]}"; do
+        if command -v "$cmd" >/dev/null 2>&1; then
+            echo "  ✓ $cmd disponible"
+        else
+            echo "  ❌ $cmd non trouvé dans PATH"
+        fi
+    done
+    
+    echo
+    ui_wait
+}
+
+quick_stop() {
+    # Arrêt rapide sans menu (pour usage en script)
+    local what=${1:-"all"}
+    
+    case "$what" in
+        "mission")
+            config_clear_mission
+            echo "Mission arrêtée"
+            ;;
+        "punishments")
+            punishment_emergency_stop >/dev/null 2>&1
+            echo "Pénalités arrêtées"
+            ;;
+        "all")
+            config_clear_mission
+            punishment_emergency_stop >/dev/null 2>&1
+            pkill -f "learning.*timer" 2>/dev/null || true
+            pkill -f "punishment" 2>/dev/null || true
+            echo "Tout arrêté"
+            ;;
+        *)
+            echo "Usage: learning-emergency quick [mission|punishments|all]"
+            exit 1
+            ;;
+    esac
+}
+
+main() {
+    # Vérifier que la configuration existe
+    if [[ ! -d "$CONFIG_DIR" ]]; then
+        ui_error "Aucune configuration trouvée"
+        ui_info "Lancez d'abord 'learning.sh' pour initialiser le système"
+        exit 1
+    fi
+    
+    config_init
+    
+    # Vérifier les arguments
+    case "${1:-menu}" in
+        "menu"|"")
+            show_emergency_menu
+            ;;
+        "quick")
+            quick_stop "${2:-all}"
+            ;;
+        "stop-mission")
+            emergency_stop_mission
+            ;;
+        "stop-punishments")
+            emergency_stop_punishments
+            ;;
+        "reset")
+            emergency_full_reset
+            ;;
+        "status")
+            emergency_system_status
+            ;;
+        "help"|"-h"|"--help")
+            cat << EOF
+Usage: learning-emergency [action]
+
+Actions:
+  menu                 Afficher le menu interactif (défaut)
+  quick [type]         Arrêt rapide (mission|punishments|all)
+  stop-mission         Arrêter seulement la mission
+  stop-punishments     Arrêter seulement les pénalités
+  reset               Réinitialisation complète
+  status              Voir l'état du système
+  help                Afficher cette aide
+
+Examples:
+  learning-emergency              # Menu interactif
+  learning-emergency quick        # Tout arrêter rapidement
+  learning-emergency quick mission # Arrêter juste la mission
+  learning-emergency status       # Diagnostic système
+EOF
+            ;;
+        *)
+            ui_error "Action inconnue: $1"
+            ui_info "Utilisez 'learning-emergency help' pour voir les options"
+            exit 1
+            ;;
+    esac
+}
+
+# Point d'entrée
+main "$@"

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# arch-autoupdate — mise à jour non supervisée des dépôts officiels.
+# Lancé par arch-autoupdate.timer (voir arch-autoupdate.service).
+#
+# Ne touche PAS à l'AUR : yay refuse de tourner en root, et une reconstruction
+# AUR ratée sans personne devant l'écran laisse un paquet à moitié installé.
+# Utilise `maj` (alias de `yay -Syu`) pour l'AUR.
+#
+set -uo pipefail
+
+log() { printf '%s\n' "$*"; }   # capturé par le journal systemd
+
+# Un pacman déjà en cours (ou un lock oublié) : on ne force jamais.
+if [[ -e /var/lib/pacman/db.lck ]]; then
+    log "db.lck présent — une autre instance de pacman tourne. Abandon."
+    exit 0
+fi
+
+# Le trousseau expire et se renouvelle indépendamment du reste. S'il est
+# périmé, tout `-Syu` échoue sur des erreurs de signature, donc il passe
+# d'abord et son échec n'est pas fatal.
+log "→ mise à jour du trousseau de clés"
+pacman -Sy --noconfirm --needed --noprogressbar archlinux-keyring \
+    || log "⚠ échec de la mise à jour du trousseau, on continue"
+
+log "→ pacman -Syu"
+if pacman -Syu --noconfirm --noprogressbar; then
+    log "✔ mise à jour terminée"
+else
+    rc=$?
+    log "✘ pacman a échoué (code $rc) — à traiter à la main : yay -Syu"
+    exit "$rc"
+fi
+
+# Le noyau tournant et les modules sur disque divergent après une mise à jour
+# du noyau : les modules non encore chargés (USB, chiffrement…) deviennent
+# introuvables jusqu'au redémarrage. On le signale dans le journal.
+running="$(uname -r)"
+installed="$(pacman -Q linux 2>/dev/null | awk '{print $2}')"
+if [[ -n "$installed" && "$running" != "${installed%-*}"* ]]; then
+    log "ℹ noyau mis à jour (tourne: $running, installé: $installed) — redémarrage conseillé"
+fi
+
+# Les orphelins s'accumulent sinon. `pacman -Qtdq` ne liste que les dépendances
+# devenues inutiles, jamais un paquet installé explicitement.
+if orphans=$(pacman -Qtdq 2>/dev/null) && [[ -n "$orphans" ]]; then
+    log "→ suppression des orphelins : $(echo "$orphans" | tr '\n' ' ')"
+    pacman -Rns --noconfirm $orphans || log "⚠ échec de la suppression des orphelins"
+fi

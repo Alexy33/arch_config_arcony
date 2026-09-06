@@ -1,0 +1,30 @@
+{
+    "label" : "lock",
+    "action" : "hyprlock",
+    "text" : "Sacred Lock",
+    "keybind" : "l"
+}
+{
+    "label" : "logout",
+    "action" : "hyprctl dispatch exit 0", 
+    "text" : "Machine Rest",
+    "keybind" : "e"
+}
+{
+    "label" : "suspend",
+    "action" : "systemctl suspend",
+    "text" : "Deep Sleep", 
+    "keybind" : "u"
+}
+{
+    "label" : "reboot",
+    "action" : "bash -c 'for i in 5 4 3 2 1; do notify-send -t 1000 \"🔄 Sacred Reboot\" \"Rebooting in $i seconds...\"; sleep 1; done; systemctl reboot'",
+    "text" : "Sacred Reboot",
+    "keybind" : "r"  
+}
+{
+    "label" : "shutdown",
+    "action" : "bash -c 'for i in 5 4 3 2 1; do notify-send -t 1000 \"⚡ Final Rest\" \"Shutting down in $i seconds...\"; sleep 1; done; systemctl poweroff'",
+    "text" : "Final Rest",
+    "keybind" : "s"
+}

@@ -1,0 +1,84 @@
+/*
+ *  +++  CULT MECHANICUS  ::  COLOR LITANIES  +++
+ *  Forge World — Mars Pattern Mk.III
+ *  ------------------------------------------------
+ *  01000001 01010110 01000101  ::  AVE OMNISSIAH
+ *
+ *  Liturgical palette (do not profane the sacred values):
+ *    - sanguine_deep   : oxidized rust, the blood of Mars
+ *    - sanguine_bright : lit servo-skull lens
+ *    - brass_holy      : Cog Mechanicus burnished
+ *    - brass_dim       : tarnished gear-tooth
+ *    - oil_black       : void of the Noosphere
+ *    - bone_data       : lingua-technis ink
+ *    - warning_amber   : warp-anomaly indicator
+ */
+
+/* core surfaces — the void between cogitators */
+@define-color background          #0a0604;
+@define-color surface             #120906;
+@define-color surface_container   #1a0e09;
+@define-color surface_dim         #0f0805;
+@define-color surface_bright      #2a1810;
+@define-color blur_background     rgba(10, 6, 4, 0.55);
+@define-color blur_background8    rgba(10, 6, 4, 0.88);
+
+/* sanguine — Mars red, oxidized iron */
+@define-color sanguine_deep       #5a0a0a;
+@define-color sanguine            #8b1414;
+@define-color sanguine_bright     #c8102e;
+@define-color sanguine_glow       #ff3b3b;
+
+/* brass / holy bronze */
+@define-color brass_dim           #6b5a2a;
+@define-color brass               #b08d57;
+@define-color brass_holy          #d4af37;
+@define-color brass_glow          #ffcc66;
+
+/* text — bone of the data-saint */
+@define-color bone                #d8c9b0;
+@define-color bone_dim            #9c8e78;
+@define-color text_warning        #f0a020;
+@define-color text_error          #ff3b3b;
+@define-color text_success        #6ab04c;
+
+/* legacy ml4w bindings — keep theme-switcher & parent css happy */
+@define-color backgrounddark      #0a0604;
+@define-color backgroundlight     #1a0e09;
+@define-color textcolor1          #d8c9b0;
+@define-color textcolor2          #d4af37;
+@define-color textcolor3          #ffffff;
+@define-color iconcolor           #d4af37;
+@define-color bordercolor         #8b1414;
+@define-color workspacesbackground1 #0a0604;
+@define-color workspacesbackground2 #5a0a0a;
+
+/* matugen-style aliases referenced by other widgets in the system */
+@define-color primary             #c8102e;
+@define-color primary_container   #5a0a0a;
+@define-color on_primary          #ffe7d6;
+@define-color secondary           #d4af37;
+@define-color secondary_container #6b5a2a;
+@define-color on_secondary        #1a0e09;
+@define-color tertiary            #b08d57;
+@define-color tertiary_container  #2a1810;
+@define-color on_tertiary         #1a0e09;
+@define-color error               #ff3b3b;
+@define-color error_container     #5a0a0a;
+@define-color on_error            #ffffff;
+@define-color outline             #6b5a2a;
+@define-color outline_variant     #2a1810;
+@define-color on_background       #d8c9b0;
+@define-color on_surface          #d8c9b0;
+@define-color on_surface_variant  #b08d57;
+@define-color shadow              #000000;
+@define-color scrim               #000000;
+@define-color source_color        #c8102e;
+@define-color surface_tint        #c8102e;
+@define-color surface_container_low      #100805;
+@define-color surface_container_lowest   #050302;
+@define-color surface_container_high     #221308;
+@define-color surface_container_highest  #2a1810;
+@define-color inverse_surface     #d8c9b0;
+@define-color inverse_on_surface  #1a0e09;
+@define-color inverse_primary     #5a0a0a;
